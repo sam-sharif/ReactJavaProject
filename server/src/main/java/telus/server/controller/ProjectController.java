@@ -1,7 +1,6 @@
 package telus.server.controller;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -9,8 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,6 +37,29 @@ public class ProjectController {
 		if(errors!=null) return errors;
 		Project theProject = projectService.saveOrUpdate(project);
 		return new ResponseEntity<Project>(theProject,HttpStatus.CREATED);
+	}
+	
+	@GetMapping("/project/{projectIdentifier}")
+	public ResponseEntity<?> findByProjectIdentifier(@PathVariable String projectIdentifier) {
+		
+		Project project = projectService.findByProjectIdentifier(projectIdentifier.toUpperCase());
+		if(project==null) {
+			return new ResponseEntity<String>("The project Id does not exist!",HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<Project>(project,HttpStatus.OK);
+	}
+	
+	@GetMapping("/projects")
+	public List<Project> findAllProjects(){
+		
+		return projectService.findAllProjects();
+	}
+	
+	@DeleteMapping("/project/{projectIdentifier}")
+	public ResponseEntity<?> deleteByProjectIdentifier(@PathVariable String projectIdentifier){
+		
+		projectService.deleteByProjectIdentifier(projectIdentifier.toUpperCase());
+		return new ResponseEntity<String>("project with id of "+projectIdentifier+" was deleted!",HttpStatus.OK);
 	}
 	
 	

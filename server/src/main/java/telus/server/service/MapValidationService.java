@@ -15,7 +15,7 @@ public class MapValidationService {
 	public ResponseEntity<?> mapValidation(BindingResult result) {
 
 		if (result.hasErrors()) {
-
+			System.out.println(result);
 			Map<String, String> errors = new HashMap<>();
 			for (FieldError error : result.getFieldErrors()) {
 				errors.put(error.getField(), error.getDefaultMessage());

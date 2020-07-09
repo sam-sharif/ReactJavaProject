@@ -116,6 +116,16 @@ public class Project {
 		this.update_At = update_At;
 	}
 
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
+	
+
 	
 	
 }
